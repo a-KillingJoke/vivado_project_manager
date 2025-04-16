@@ -1,0 +1,145 @@
+{
+  "name": "vivado-manager",
+  "displayName": "Vivado Project Manager",
+  "description": "Manage Xilinx Vivado projects within VS Code with enhanced HDL navigation",
+  "version": "0.1.0",
+  "engines": {
+    "vscode": "^1.99.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "vhdView.importVivadoProject",
+        "title": "Import Vivado Project"
+      },
+      {
+        "command": "vhdView.openFile",
+        "title": "Open Design File"
+      },
+      {
+        "command": "vhdView.setTopModule",
+        "title": "Set as Top Module"
+      },
+      {
+        "command": "vhdView.showFlatView",
+        "title": "Show Flat View"
+      },
+      {
+        "command": "vhdView.refresh",
+        "title": "Refresh Project View"
+      },
+      {
+        "command": "vhdView.findModule",
+        "title": "Find Module/Entity"
+      }
+    ],
+    "menus": {
+      "view/item/context": [
+        {
+          "command": "vhdView.setTopModule",
+          "when": "view == vivadoDesignFilesView && viewItem == moduleNode",
+          "group": "navigation"
+        },
+        {
+          "command": "vhdView.showFlatView",
+          "when": "view == vivadoDesignFilesView",
+          "group": "navigation"
+        },
+        {
+          "command": "vhdView.refresh",
+          "when": "view == vivadoDesignFilesView",
+          "group": "navigation"
+        },
+        {
+          "command": "vhdView.findModule",
+          "when": "view == vivadoDesignFilesView",
+          "group": "navigation"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "vivadoManager",
+          "title": "Vivado Project",
+          "icon": "./src/media/chip.svg"
+        }
+      ]
+    },
+    "views": {
+      "vivadoManager": [
+        {
+          "id": "vivadoDesignFilesView",
+          "name": "Design Files"
+        },
+        {
+          "id": "vivadoProjectControls",
+          "name": "Controls"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "vivadoProjectControls",
+        "contents": "[Import Project](command:vhdView.importVivadoProject)\n[Refresh](command:vhdView.refresh)\n[Find Module](command:vhdView.findModule)"
+      }
+    ],
+    "configuration": {
+      "title": "Vivado Manager",
+      "properties": {
+        "vivadoManager.autoRefresh": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically refresh the tree view when files change"
+        },
+        "vivadoManager.enableCache": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable file content caching for better performance"
+        },
+        "vivadoManager.fileOpenPreview": {
+          "type": "boolean",
+          "default": true,
+          "description": "Open files in preview mode by default"
+        },
+        "vivadoManager.vivadoPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to Vivado executable (optional if auto-detection fails)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.99.0",
+    "@types/xml2js": "^0.4.14",
+    "@typescript-eslint/eslint-plugin": "^8.28.0",
+    "@typescript-eslint/parser": "^8.28.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.23.0",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^5.2.0",
+    "glob": "^11.0.1",
+    "xml2js": "^0.6.2"
+  }
+}
